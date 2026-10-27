@@ -1,0 +1,24 @@
+[package]
+name = "raywasm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+raylib = "6.0"
+
+# Native-only hotpatching, driven by `dx serve` (see README)
+[target.'cfg(not(target_os = "emscripten"))'.dependencies]
+subsecond = { version = "0.7", optional = true }
+dioxus-devtools = { version = "0.7", optional = true }
+
+[features]
+hotpatch = ["dep:subsecond", "dep:dioxus-devtools"]
+
+# Only used by examples/ecs.rs; add it to [dependencies] in a game that wants an ECS
+[dev-dependencies]
+hecs = "0.11"
+
+[profile.release]
+opt-level = "s"
+lto = true
+

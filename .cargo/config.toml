@@ -1,0 +1,13 @@
+# No default build target: plain `cargo run` builds natively, ./build.sh web passes --target.
+
+[target.wasm32-unknown-emscripten]
+rustflags = [
+    "-C", "link-arg=-sUSE_GLFW=3",
+    "-C", "link-arg=-sGL_ENABLE_GET_PROC_ADDRESS=1",
+    "-C", "link-arg=-sALLOW_MEMORY_GROWTH=1",
+    "-C", "link-arg=-sENVIRONMENT=web",
+]
+
+[env]
+# raylib-sys refuses to build for emscripten without this; it is passed to every emcc call (and ignored natively)
+EMCC_CFLAGS = "-sUSE_GLFW=3"
